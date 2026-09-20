@@ -1,692 +1,514 @@
-\# NetCheck
+# NetCheck
 
+### Network Troubleshooting & Connectivity Toolkit
 
+> A lightweight network diagnostic tool for checking connectivity, ports, DNS, and HTTP/HTTPS from a single dashboard.
 
-\### Network Troubleshooting \& Connectivity Toolkit
+NetCheck adalah toolkit sederhana untuk membantu proses troubleshooting jaringan melalui satu dashboard.
 
+Project ini dibuat sebagai **project mandiri** untuk mempelajari penerapan konsep jaringan, client-server, troubleshooting, serta penggunaan **Node.js dan TypeScript** dalam membangun tools jaringan.
 
+---
 
-NetCheck adalah toolkit sederhana untuk membantu melakukan pengecekan konektivitas jaringan melalui satu dashboard.
-
-
-
-Project ini dibuat sebagai project mandiri untuk mempelajari penerapan konsep jaringan, client-server, troubleshooting, serta penggunaan Node.js dan TypeScript dalam membuat tools jaringan.
-
-
-
-\---
-
-
-
-\## 📌 Tentang Project
-
-
+## 📌 Tentang Project
 
 Saat melakukan troubleshooting jaringan, beberapa pengecekan biasanya dilakukan secara terpisah menggunakan command seperti `ping`, pengecekan port, DNS lookup, atau membuka website secara langsung.
 
+NetCheck menggabungkan beberapa pengecekan tersebut ke dalam satu dashboard sehingga hasil diagnosis dapat dilihat dengan lebih mudah.
 
+### Pengecekan yang tersedia
 
-NetCheck menggabungkan beberapa pengecekan tersebut ke dalam satu dashboard sehingga hasil pengecekan dapat dilihat dengan lebih mudah.
+- 🌐 Ping / Host Reachability
+- 🔌 TCP Port Connectivity
+- 🔎 DNS Resolution
+- 🌍 HTTP/HTTPS Response
+- 📊 Overall Network Status
 
+Project ini berjalan secara lokal. Backend melakukan pengecekan jaringan dari komputer atau server tempat NetCheck dijalankan.
 
+---
 
-Pengecekan yang tersedia:
-
-
-
-\- Ping / host reachability
-
-\- Port connectivity
-
-\- DNS resolution
-
-\- HTTP/HTTPS response
-
-\- Overall network status
-
-
-
-Project ini berjalan secara lokal dan backend melakukan pengecekan jaringan dari komputer/server tempat NetCheck dijalankan.
-
-
-
-\---
-
-
-
-\## 🎯 Tujuan
-
-
+## 🎯 Tujuan
 
 NetCheck dibuat untuk:
 
+- Memahami konsep dasar troubleshooting jaringan
+- Memahami komunikasi antara frontend dan backend
+- Menerapkan pengecekan konektivitas menggunakan Node.js
+- Menggunakan TypeScript untuk pengembangan aplikasi
+- Menggabungkan beberapa network check dalam satu tools
+- Membuat tools sederhana yang dapat membantu proses troubleshooting
 
+---
 
-\- Memahami konsep dasar troubleshooting jaringan
+## ⚙️ Fitur
 
-\- Memahami komunikasi antara frontend dan backend
+### 01 — Ping Check
 
-\- Menerapkan pengecekan konektivitas menggunakan Node.js
+Mengecek apakah sebuah host dapat dijangkau melalui jaringan.
 
-\- Menggunakan TypeScript untuk pengembangan backend dan frontend
+**Contoh:**
 
-\- Menggabungkan beberapa network check dalam satu aplikasi
+    google.com → ONLINE
 
-\- Membuat tools sederhana yang dapat digunakan saat troubleshooting
+---
 
+### 02 — Port Check
 
+Mengecek apakah port TCP tertentu dapat diakses pada target.
 
-\---
+**Contoh:**
 
+    Target : google.com
+    Port   : 443
+    Status : OPEN
 
+---
 
-\## ⚙️ Fitur
-
-
-
-\### 1. Ping Check
-
-
-
-Melakukan pengecekan apakah target dapat dijangkau melalui jaringan.
-
-
-
-Contoh:
-
-
-
-```text
-
-google.com → ONLINE
-
-2\. Port Check
-
-
-
-Mengecek apakah port tertentu dapat diakses pada target.
-
-
-
-Contoh:
-
-
-
-Target : google.com
-
-Port   : 443
-
-Status : OPEN
-
-3\. DNS Check
-
-
+### 03 — DNS Check
 
 Melakukan DNS resolution untuk mengetahui alamat IP yang terkait dengan sebuah domain.
 
+**Contoh:**
 
+    google.com
+        ↓
+    DNS RESOLVED
+        ↓
+    IP Address
 
-Contoh:
+---
 
-
-
-google.com
-
-&#x20;   ↓
-
-DNS RESOLVED
-
-&#x20;   ↓
-
-IP Address
-
-4\. HTTP Check
-
-
+### 04 — HTTP Check
 
 Mengecek apakah sebuah alamat HTTP/HTTPS dapat memberikan response.
 
-
-
 Informasi yang ditampilkan:
 
+- HTTP status code
+- Response time
+- Reachability
 
+**Contoh:**
 
-HTTP status code
+    Status Code   : 301
+    Response Time : 157 ms
+    Status        : ONLINE
 
-Response time
+---
 
-Reachability
+### 05 — Overall Network Check
 
+NetCheck dapat menjalankan beberapa pengecekan secara bersamaan.
 
-
-Contoh:
-
-
-
-Status Code   : 301
-
-Response Time : 157 ms
-
-Status        : ONLINE
-
-5\. Overall Network Check
-
-
-
-NetCheck menjalankan beberapa pengecekan sekaligus:
-
-
-
-Ping
-
-&#x20; +
-
-Port
-
-&#x20; +
-
-DNS
-
-&#x20; +
-
-HTTP
-
-&#x20; ↓
-
-Overall Status
-
-
+    Ping
+      │
+    Port
+      │
+    DNS
+      │
+    HTTP
+      │
+      ▼
+    Overall Status
 
 Jika pengecekan utama berhasil:
 
-
-
-HEALTHY
-
-
+    ✓ HEALTHY
 
 Jika terdapat pengecekan yang bermasalah:
 
-
-
-CHECK\_REQUIRED
-
-🏗️ Arsitektur
-
-┌──────────────────────────┐
-
-│      Web Browser         │
-
-│    React Dashboard       │
-
-└────────────┬─────────────┘
-
-&#x20;            │
-
-&#x20;            │ HTTP Request
-
-&#x20;            ▼
-
-┌──────────────────────────┐
-
-│      Express API         │
-
-│      Node.js Backend     │
-
-└────────────┬─────────────┘
-
-&#x20;            │
-
-&#x20;      ┌─────┼─────┬─────┐
-
-&#x20;      ▼     ▼     ▼     ▼
-
-&#x20;    Ping   Port   DNS   HTTP
-
-&#x20;      │     │     │     │
-
-&#x20;      └─────┴─────┴─────┘
-
-&#x20;            │
-
-&#x20;            ▼
-
-&#x20;      Network Result
-
-&#x20;            │
-
-&#x20;            ▼
-
-┌──────────────────────────┐
-
-│     React Dashboard      │
-
-│   Diagnostic Results     │
-
-└──────────────────────────┘
-
-🛠️ Tech Stack
-
-Frontend
-
-React
-
-TypeScript
-
-Vite
-
-CSS
-
-Backend
-
-Node.js
-
-Express
-
-TypeScript
-
-Network
-
-ICMP Ping
-
-TCP Port Connection
-
-DNS Resolution
-
-HTTP/HTTPS Request
-
-Development Tools
-
-Git
-
-GitHub
-
-Visual Studio Code
-
-📁 Struktur Project
-
-netcheck/
-
-│
-
-├── frontend/
-
-│   ├── src/
-
-│   │   ├── App.tsx
-
-│   │   ├── App.css
-
-│   │   ├── index.css
-
-│   │   └── main.tsx
-
-│   │
-
-│   ├── public/
-
-│   ├── package.json
-
-│   └── vite.config.ts
-
-│
-
-├── src/
-
-│   ├── services/
-
-│   │   ├── pingService.ts
-
-│   │   ├── portService.ts
-
-│   │   ├── dnsService.ts
-
-│   │   └── httpService.ts
-
-│   │
-
-│   └── server.ts
-
-│
-
-├── .gitignore
-
-├── package.json
-
-├── package-lock.json
-
-└── tsconfig.json
-
-🚀 Cara Menjalankan
-
-1\. Clone Repository
-
-git clone <repository-url>
-
-cd netcheck
-
-2\. Install Backend
-
-
-
-Di folder utama project:
-
-
-
-npm install
-
-
+    ⚠ CHECK_REQUIRED
+
+---
+
+## 🏗️ Arsitektur
+
+    ┌──────────────────────────┐
+    │       Web Browser        │
+    │      React Dashboard     │
+    └────────────┬─────────────┘
+                 │
+                 │ HTTP Request
+                 ▼
+    ┌──────────────────────────┐
+    │       Express API        │
+    │      Node.js Backend     │
+    └────────────┬─────────────┘
+                 │
+           ┌─────┼─────┬─────┐
+           ▼     ▼     ▼     ▼
+         Ping   Port   DNS   HTTP
+           │     │     │     │
+           └─────┴─────┴─────┘
+                 │
+                 ▼
+          Network Result
+                 │
+                 ▼
+    ┌──────────────────────────┐
+    │      React Dashboard     │
+    │    Diagnostic Results    │
+    └──────────────────────────┘
+
+### Alur Sederhana
+
+    User
+      ↓
+    Input Target & Port
+      ↓
+    React Frontend
+      ↓
+    Express API
+      ↓
+    Network Checks
+      ├── Ping
+      ├── Port
+      ├── DNS
+      └── HTTP
+      ↓
+    Diagnostic Result
+      ↓
+    Dashboard
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+| Technology | Usage |
+|------------|-------|
+| React | User Interface |
+| TypeScript | Type-safe development |
+| Vite | Frontend development server |
+| CSS | Dashboard styling |
+
+### Backend
+
+| Technology | Usage |
+|------------|-------|
+| Node.js | Backend runtime |
+| Express | REST API |
+| TypeScript | Backend development |
+
+### Network
+
+| Technology | Usage |
+|------------|-------|
+| ICMP Ping | Host reachability |
+| TCP | Port connectivity |
+| DNS | Domain resolution |
+| HTTP/HTTPS | Web response checking |
+
+### Development Tools
+
+- Git
+- GitHub
+- Visual Studio Code
+
+---
+
+## 📁 Struktur Project
+
+    netcheck/
+    │
+    ├── frontend/
+    │   ├── src/
+    │   │   ├── App.tsx
+    │   │   ├── App.css
+    │   │   ├── index.css
+    │   │   └── main.tsx
+    │   │
+    │   ├── public/
+    │   ├── package.json
+    │   └── vite.config.ts
+    │
+    ├── src/
+    │   ├── services/
+    │   │   ├── pingService.ts
+    │   │   ├── portService.ts
+    │   │   ├── dnsService.ts
+    │   │   └── httpService.ts
+    │   │
+    │   └── server.ts
+    │
+    ├── .gitignore
+    ├── package.json
+    ├── package-lock.json
+    └── tsconfig.json
+
+---
+
+## 🚀 Cara Menjalankan
+
+### 1. Clone Repository
+
+    git clone <repository-url>
+    cd netcheck
+
+### 2. Install Backend
+
+Jalankan dari folder utama project:
+
+    npm install
 
 Jika menggunakan PowerShell pada Windows:
 
+    npm.cmd install
 
+### 3. Jalankan Backend
 
-npm.cmd install
+    npm run dev
 
-3\. Jalankan Backend
+Jika menggunakan PowerShell:
 
-npm run dev
-
-
+    npm.cmd run dev
 
 Backend akan berjalan pada:
 
+`http://localhost:3000`
 
-
-http://localhost:3000
-
-4\. Jalankan Frontend
-
-
+### 4. Jalankan Frontend
 
 Buka terminal baru:
 
+    cd netcheck/frontend
+    npm install
+    npm run dev
 
+Jika menggunakan PowerShell:
 
-cd netcheck/frontend
-
-npm install
-
-npm run dev
-
-
+    npm.cmd install
+    npm.cmd run dev
 
 Frontend akan berjalan pada:
 
+`http://localhost:5173`
 
+---
 
-http://localhost:5173
+## 🔌 API Endpoint
 
-🔌 API Endpoint
+NetCheck menyediakan beberapa endpoint untuk melakukan pengecekan jaringan.
 
-Home
+### 🏠 Home
 
-GET /
+`GET /`
 
-Ping
+Digunakan untuk mengecek apakah backend sedang berjalan.
 
-GET /api/ping?target=google.com
+---
 
+### 🌐 Ping
 
+`GET /api/ping?target=google.com`
 
-Contoh response:
+**Contoh response:**
 
+    {
+      "target": "google.com",
+      "reachable": true,
+      "status": "ONLINE"
+    }
 
+---
 
-{
+### 🔌 Port
 
-&#x20; "target": "google.com",
+`GET /api/port?target=google.com&port=443`
 
-&#x20; "reachable": true,
+**Contoh response:**
 
-&#x20; "status": "ONLINE"
+    {
+      "target": "google.com",
+      "port": 443,
+      "open": true,
+      "status": "OPEN"
+    }
 
-}
+---
 
-Port
+### 🔎 DNS
 
-GET /api/port?target=google.com\&port=443
+`GET /api/dns?target=google.com`
 
+**Contoh response:**
 
+    {
+      "target": "google.com",
+      "resolved": true,
+      "addresses": [
+        "142.250.x.x"
+      ],
+      "status": "RESOLVED"
+    }
 
-Contoh response:
+> Alamat IP pada hasil sebenarnya dapat berbeda tergantung DNS resolver dan waktu pengecekan.
 
+---
 
+### 🌍 HTTP
 
-{
+`GET /api/http?target=https://google.com`
 
-&#x20; "target": "google.com",
+**Contoh response:**
 
-&#x20; "port": 443,
+    {
+      "target": "https://google.com",
+      "statusCode": 301,
+      "responseTime": 157,
+      "reachable": true,
+      "status": "ONLINE"
+    }
 
-&#x20; "open": true,
+---
 
-&#x20; "status": "OPEN"
+### 📊 Overall Check
 
-}
+`GET /api/check?target=google.com&port=443`
 
-DNS
+Endpoint ini menjalankan beberapa pengecekan sekaligus:
 
-GET /api/dns?target=google.com
+    Ping
+      +
+    Port
+      +
+    DNS
+      +
+    HTTP
+      ↓
+    Overall Status
 
+Hasil akhir dapat berupa:
 
-
-Contoh response:
-
-
-
-{
-
-&#x20; "target": "google.com",
-
-&#x20; "resolved": true,
-
-&#x20; "addresses": \[],
-
-&#x20; "status": "RESOLVED"
-
-}
-
-HTTP
-
-GET /api/http?target=https://google.com
-
-
-
-Contoh response:
-
-
-
-{
-
-&#x20; "target": "https://google.com",
-
-&#x20; "statusCode": 301,
-
-&#x20; "responseTime": 157,
-
-&#x20; "reachable": true,
-
-&#x20; "status": "ONLINE"
-
-}
-
-Overall Check
-
-GET /api/check?target=google.com\&port=443
-
-
-
-Endpoint ini menjalankan:
-
-
-
-Ping
-
-Port
-
-DNS
-
-HTTP
-
-
-
-Kemudian menghasilkan:
-
-
-
-HEALTHY
-
-
+    HEALTHY
 
 atau:
 
+    CHECK_REQUIRED
 
+---
 
-CHECK\_REQUIRED
-
-🖥️ Contoh Penggunaan
-
-
+## 🖥️ Contoh Penggunaan
 
 Misalnya ingin mengecek:
 
+    Target : google.com
+    Port   : 443
 
+NetCheck akan menjalankan beberapa pengecekan:
 
-Target : google.com
-
-Port   : 443
-
-
-
-NetCheck akan menjalankan:
-
-
-
-\[✓] Ping     → ONLINE
-
-\[✓] Port     → OPEN
-
-\[✓] DNS      → RESOLVED
-
-\[✓] HTTP     → ONLINE
-
-
+    [✓] Ping     → ONLINE
+    [✓] Port     → OPEN
+    [✓] DNS      → RESOLVED
+    [✓] HTTP     → ONLINE
 
 Kemudian dashboard menampilkan:
 
+    ┌──────────────────────────┐
+    │     NETWORK HEALTHY      │
+    │                          │
+    │      google.com:443      │
+    └──────────────────────────┘
 
+---
 
-NETWORK HEALTHY
-
-🌐 Konsep Jaringan yang Digunakan
-
-
+## 🌐 Konsep Jaringan yang Digunakan
 
 Project ini menerapkan beberapa konsep dasar jaringan:
 
+- IP Address
+- Domain Name
+- DNS
+- ICMP
+- TCP
+- Port
+- HTTP
+- HTTPS
+- Client-Server
+- Network Connectivity
+- Network Troubleshooting
 
+Backend melakukan pengecekan jaringan dari komputer atau server tempat NetCheck dijalankan.
 
-IP Address
+---
 
-Domain Name
-
-DNS
-
-ICMP
-
-TCP
-
-Port
-
-HTTP
-
-HTTPS
-
-Client-Server
-
-Network Connectivity
-
-
-
-Backend melakukan pengecekan jaringan dari komputer/server tempat NetCheck dijalankan.
-
-
-
-🔐 Catatan Keamanan
-
-
+## 🔐 Catatan Keamanan
 
 NetCheck dibuat untuk penggunaan lokal dan troubleshooting pada target yang memang diperbolehkan untuk diperiksa.
 
-
-
-Tool ini bukan vulnerability scanner atau penetration testing framework.
-
-
+Tool ini **bukan vulnerability scanner** atau **penetration testing framework**.
 
 Gunakan pengecekan jaringan hanya pada sistem yang dimiliki atau sistem yang memiliki izin untuk diuji.
 
+---
 
+## 📚 Pembelajaran
 
-📚 Pembelajaran
+Melalui project ini, beberapa hal yang dipelajari antara lain:
 
+- Membuat REST API menggunakan Express
+- Menggunakan TypeScript pada Node.js
+- Menggunakan module `dns`
+- Menggunakan module `net`
+- Melakukan HTTP/HTTPS request
+- Menghubungkan React dengan Express
+- Menggunakan Vite
+- Menggunakan Git dan GitHub
+- Menerapkan konsep client-server
+- Menerapkan konsep troubleshooting jaringan
 
+---
 
-Beberapa hal yang dipelajari dari project ini:
+## 🔄 Pengembangan Selanjutnya
 
+Beberapa fitur yang dapat dikembangkan pada versi berikutnya:
 
+- [ ] Traceroute
+- [ ] Network information
+- [ ] Check history
+- [ ] Penyimpanan hasil menggunakan SQLite
+- [ ] Export hasil troubleshooting
+- [ ] Diagnostic information yang lebih detail
+- [ ] Network latency information
 
-Membuat REST API dengan Express
+---
 
-Menggunakan TypeScript pada Node.js
+## 📌 Project Status
 
-Menggunakan module dns
+**Current Version:** `v1.0`
 
-Menggunakan module net
+NetCheck saat ini sudah dapat melakukan:
 
-Melakukan HTTP/HTTPS request
+- ✓ Ping Check
+- ✓ Port Check
+- ✓ DNS Check
+- ✓ HTTP/HTTPS Check
+- ✓ Overall Network Check
+- ✓ Web Dashboard
+- ✓ REST API
 
-Menghubungkan React dengan Express
+---
 
-Menggunakan Vite
+## 👩‍💻 Project
 
-Menggunakan Git dan GitHub
+### NetCheck
 
-Menerapkan konsep troubleshooting jaringan
+**Network Troubleshooting & Connectivity Toolkit**
 
-🔄 Pengembangan Selanjutnya
+Project mandiri untuk pembelajaran:
 
+    Networking
+         +
+    Client-Server
+         +
+    Troubleshooting
+         +
+    Node.js
+         +
+    TypeScript
+         +
+    React
 
-
-Beberapa fitur yang dapat dikembangkan:
-
-
-
-Traceroute
-
-Network information
-
-Check history
-
-Penyimpanan hasil menggunakan SQLite
-
-Export hasil troubleshooting
-
-Informasi diagnostic yang lebih detail
-
-👩‍💻 Project
-
-
-
-NetCheck
-
-
-
-Network Troubleshooting \& Connectivity Toolkit
-
-
-
-Project mandiri untuk pembelajaran jaringan komputer, server, troubleshooting, dan pengembangan aplikasi menggunakan Node.js dan React.
-
+---
